@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+
+{% block 'body' %}
+<div class="form-container">
+    <div>
+        <table>
+            <tr>
+                <th>Class</th>
+                <th>No. of Students</th>
+            </tr>
+            {% for grade in grades %}
+            <tr>
+                <td>{{grade.grade_name}}</td>
+                <td>{{grade.no_of_students}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

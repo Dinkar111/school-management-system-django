@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% block 'body' %}
+<div class="form-container">
+    <div class="div-add-class">
+        {% if messages %}
+        {% for message in messages %}
+        <ul>
+            <li>{{message}}</li>
+        </ul>
+        {% endfor %}
+        {% endif %}
+        <form method="post" action="{% url 'add_grade' %}">
+            {% csrf_token %}
+            <input type="text" name="class_name" placeholder="Insert Class <example: Class 1>"/><br>
+            <button type="submit" class="btn btn-sm btn-primary">Add Class</button>
+        </form>
+
+    </div><br>
+</div>
+
+{% endblock %}

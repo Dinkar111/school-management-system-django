@@ -1,0 +1,97 @@
+
+body {
+  background-color: white;
+}
+.navbar {
+    padding: 10px;
+}
+
+.form-container {
+    display: grid;
+    justify-content: center;
+    padding: 50px 0;
+    margin-top: 10px;
+}
+
+.div-register-student {
+    color: #0e488a;
+    width: 400px;
+    height: 650px;
+    border: 1px solid #c3c3c3;
+    background-color: #E3E6FF;
+    padding: 50px;
+    margin-top: 50px;
+    margin-left: 500px;
+    margin-bottom: 10px;
+}
+
+.div-register-teacher {
+    color: #0e488a;
+    width: 400px;
+    height: 650px;
+    border: 1px solid #c3c3c3;
+    background-color: #E3E6FF;
+    padding: 50px;
+    margin-top: 50px;
+    margin-left: 500px;
+    margin-bottom: 10px;
+}
+
+.div-add-subject {
+    color: #0e488a;
+    width: 400px;
+    height: 400px;
+    background-color: #E3E6FF;
+    padding: 50px;
+}
+
+.div-add-class {
+    color: #0e488a;
+    width: 400px;
+    height: 200px;
+    background-color: #E3E6FF;
+    padding: 50px;
+}
+
+
+.nav-logout {
+    float: right;
+}
+
+.all_users {
+    background-color: #E3E6FF;
+    border-radius: 2%;
+    padding: 40px;
+    width: 400px;
+    line-height: 2;
+}
+
+.message_success {
+    background-color: #00e5ff;
+    border-radius: 10%;
+    padding: 10px;
+    margin-top: 20px;
+    margin-right: 50%;
+    margin-left: 40%;
+    text-align: center;
+    width: 100px;
+}
+
+.subject-highlight {
+    background-color: #006677;
+    border-radius: 10%;
+    padding: 10px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: white;
+    width: 200px;
+}
+
+table, th, td {
+  background-color: #E3E6FF;
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 15px;
+  text-align: center;
+}

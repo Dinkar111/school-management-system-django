@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+
+{% block 'body' %}
+<div class="form-container">
+    <div class="div-add-subject">
+        {% if messages %}
+        {% for message in messages %}
+        <ul>
+            <li>{{message}}</li>
+        </ul>
+        {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'add_subjects' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="inputSubjectCode">Enter Subject Code </label>
+                <input type="text" name="subject_code" class="form-control" id="inputSubjectCode"
+                       placeholder="Enter Subject Code">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="inputSubjectName">Enter Subject Name</label>
+                <input type="text" name="subject_name" class="form-control" id="inputSubjectName"
+                       placeholder="Enter Subject Name">
+            </div>
+            <br>
+            <label for="selectClass">Which class does this subject belong to?</label>
+            <select name='class_name' class="form-control" id="selectClass">
+                {% for grade in grades %}
+                <option>{{ grade.grade_name }}</option>
+                {% endfor %}
+            </select><br>
+            <button type="submit" class="btn btn-primary">Add Subject</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

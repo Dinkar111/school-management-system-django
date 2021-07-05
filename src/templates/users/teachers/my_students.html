@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+
+{% block 'body' %}
+
+<div style="margin-top:10px; margin-left:38%;">
+    <h2>My Students:</h2>
+</div>
+
+<div class="form-container">
+    {% for grade in grades %}
+    <div class="subject-highlight ">
+        <b>{{grade.grade_name}}</b><br>
+    </div>
+    {% for student in students %}
+    {% if grade.id == student.grade.id %}
+    <div class="all_users">
+        Full Name: <b>{{ student.user.full_name}}</b><br>
+        Email: <b>{{ student.user.email }}</b><br>
+        Phone: <b>{{ student.user.phone }}</b><br>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+
+</div>
+
+{% endblock %}

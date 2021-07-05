@@ -1,0 +1,12 @@
+{% extends 'main/base.html' %}
+
+{% block 'body' %}
+<div class="form-container">
+    <form method="post" action="{% url 'register_admin' %}">
+        {% csrf_token %}
+        <input type="text" name="email" placeholder="Enter Email"/><br>
+        <input type="password" name="password" placeholder="Enter Password"/><br>
+        <input type="submit" value="Add Admin"/>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+
+{% block 'body' %}
+
+<div class="div-register-student ">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+
+    {% endif %}
+    <form method="post" action="{% url 'admin_register_students' %}">
+        {% csrf_token %}
+        <label for="InputEmail">Email address</label>
+        <input type="text" class="form-control" id="InputEmail" name="email" placeholder="Enter Email" required/><br>
+        <label for="InputPassword">Password</label>
+        <input type="password" class="form-control" id="InputPassword" name="password"
+               placeholder="Enter Password" required/><br>
+        <label for="InputFullname">Full Name</label>
+        <input type="text" class="form-control" id="InputFullname" name="full_name"
+               placeholder="Enter Fullname" required/><br>
+        <label for="InputAddress">Address</label>
+        <input type="text" class="form-control" id="InputAddress" name="address"
+               placeholder="Enter Address" required/><br>
+        <label for="InputPhone">Phone</label>
+        <input type="text" class="form-control" id="InputPhone" name="phone" placeholder="Enter Phone" required/><br>
+        <label for="selectClass">Which class do you study?</label>
+        <select name='grade_name' class="form-control" id="selectClass">
+            {% for grade in grades %}
+            <option value={{grade.id}}>{{ grade.grade_name }}</option>
+            {% endfor %}
+        </select><br>
+        <button type="submit" class="btn btn-primary">Register Student</button>
+    </form>
+</div>
+{% endblock %}

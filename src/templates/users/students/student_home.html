@@ -1,0 +1,35 @@
+{% extends 'main/base.html' %}
+
+{% block 'body' %}
+
+<div class="form-container">
+    <h2>My Profile:</h2>
+    <div class="all_users">
+        Full Name: <b>{{student.user.full_name}}</b><br>
+        Email: <b>{{student.user.email}}</b><br>
+        Address: <b>{{student.user.address}}</b><br>
+        Phone: <b>{{student.user.phone}}</b><br>
+        Class: <b>{{student.grade.grade_name}}</b><br>
+        <div class="btn btn-sm btn-info">
+            <a href="{% url 'update_user' %}">Update profile</a>
+        </div>
+        <div class="btn btn-sm btn-info">
+            <a href="{% url 'change_password' %}">Change Password</a>
+        </div>
+    </div>
+    {% if subjects %}
+    <h2>My Subjects:</h2>
+    <div class="all_users">
+        <ul>
+            {% for subject in subjects %}
+            <li><b>{{subject.subject_name}}</b></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <h2>No Subjects:</h2>
+    {% endif %}
+
+</div>
+
+{% endblock %}

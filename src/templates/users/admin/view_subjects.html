@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+
+{% block 'body' %}
+<div style="margin-top:10px; margin-left:38%;">
+    <h2>ALL SUBJECTS:</h2>
+</div>
+<div class="form-container">
+    <table>
+        <tr>
+            <th>Subject Code</th>
+            <th>Subject Name</th>
+            <th>Grade</th>
+            <th></th>
+        </tr>
+        {% for subject in subjects %}
+        <tr>
+            <td>{{subject.subject_code}}</td>
+            <td>{{subject.subject_name}}</td>
+            <td>{{subject.grade.grade_name}}</td>
+            <td><a class="btn btn-sm btn-danger" href="{% url 'delete_subject' subject.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

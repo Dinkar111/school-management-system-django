@@ -1,0 +1,43 @@
+{% extends 'main/base.html' %}
+
+{% block 'body' %}
+<div style="margin-top:10px; margin-left:38%;">
+    <h2>ALL TEACHERS:</h2>
+</div>
+<form method="post" role="search" action="{% url 'admin_all_teachers' %}">
+    {% csrf_token %}
+    <label for="selectClass">Which class do you want to see?</label>
+    <select name='grade_name' class="form-control" id="selectClass">
+        <option value="" disabled selected>Choose Class</option>
+        {% for grade in grades %}
+        <option value={{grade.id}}>{{ grade.grade_name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary">Select Class</button>
+</form><br>
+<div class="form-container">
+    <table>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Subject</th>
+            <th>Class</th>
+            <th></th>
+        </tr>
+        {% for result in results %}
+        <tr>
+            <td>{{result.teacher.user.full_name}}</td>
+            <td>{{result.teacher.user.email}}</td>
+            <td>{{result.teacher.user.address}}</td>
+            <td>{{result.teacher.user.phone}}</td>
+            <td>{{result.subject}}</td>
+            <td>{{result.grade}}</td>
+            <td><a class="btn btn-sm btn-danger" href="{% url 'delete_user' result.teacher.user.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
