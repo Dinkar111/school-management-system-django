@@ -1,0 +1,27 @@
+{% extends 'main/base.html' %}
+
+{% block 'body' %}
+<div class="form-container">
+    <div class="div-add-subject">
+        {% if messages %}
+        {% for message in messages %}
+        <ul>
+            <li>{{message}}</li>
+        </ul>
+        {% endfor %}
+        {% endif %}
+        <form method="post" action="{% url 'choose_subject' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="selectSubject">Choose subject</label>
+                <select name='subject_name' class="form-control" id="selectSubject">
+                    {% for subject in subjects %}
+                    <option value={{subject.id}}>{{ subject.subject_name }} ({{subject.subject_code}})</option>
+                    {% endfor %}
+                </select><br>
+                <button type="submit" class="btn btn-primary">Choose Subject</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block 'body' %}
+
+
+<div class="form-container">
+    <h2>My Classmates:</h2>
+    {% for student in students %}
+    <div class="all_users">
+        Full Name: <b>{{student.user.full_name}}</b><br>
+        Email: <b>{{ student.user.email }}</b><br>
+        Phone: <b>{{ student.user.phone }}</b><br>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

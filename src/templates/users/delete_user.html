@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block 'body' %}
+
+
+<div class="all_users">
+    <p>Are you sure you want to delete {{user.full_name}}?</p>
+    <form method="post" action="{% url 'delete_user' user.id %}">
+        {% csrf_token %}
+        <a href="{% url 'user_home' %}">Cancel</a>
+
+        <input type="submit" class="btn btn-sm btn-danger" name="Confirm" value="Delete"/>
+    </form>
+</div>
+
+
+{% endblock %}
