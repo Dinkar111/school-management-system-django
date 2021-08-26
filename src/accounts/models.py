@@ -1,14 +1,13 @@
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
-)
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email=None, password=None, full_name=None, address=None,
-                    phone=None, is_teacher=False, is_student=False):
+    def create_user(
+        self, email=None, password=None, full_name=None, address=None, phone=None, is_teacher=False, is_student=False
+    ):
         if not email:
-            raise ValueError('Users must have an email address.')
+            raise ValueError("Users must have an email address.")
 
         user = self.model(
             email=self.normalize_email(email),
@@ -16,19 +15,14 @@ class UserManager(BaseUserManager):
             address=address,
             phone=phone,
             is_teacher=is_teacher,
-            is_student=is_student
+            is_student=is_student,
         )
         user.set_password(password)
         user.save()
         return user
 
     def create_superuser(self, email=None, password=None):
-        user = self.create_user(
-            email=self.normalize_email(email),
-            full_name=None,
-            address=None,
-            phone=None
-        )
+        user = self.create_user(email=self.normalize_email(email), full_name=None, address=None, phone=None)
         user.set_password(password)
         user.is_staff = True
         user.is_admin = True
@@ -38,13 +32,11 @@ class UserManager(BaseUserManager):
 
 # Create your models here.
 class User(AbstractBaseUser):
-    email = models.EmailField(
-        max_length=255,
-        unique=True
-    )
+    email = models.EmailField(max_length=255, unique=True)
     full_name = models.CharField(max_length=50, null=True)
     address = models.CharField(max_length=20, null=True)
     phone = models.CharField(max_length=20, null=True)
+    profile_pic = models.ImageField(null=True, blank=True, default="user.png")
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
@@ -53,7 +45,7 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     def __str__(self):
@@ -70,5 +62,7 @@ class User(AbstractBaseUser):
         return True
 
     class Meta:
-        db_table = 'users'
-        ordering = ['full_name']
+        db_table = "users"
+
+    def natural_key(self):
+        return self.pk, self.full_name, self.email, self.address, self.phone, self.profile_pic.url

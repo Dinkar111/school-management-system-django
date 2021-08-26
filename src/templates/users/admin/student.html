@@ -1,0 +1,184 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="media">
+                <div class="media-body">
+                    <div class="display-6">Student</div>
+                    <p class="small text-muted">Table</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="pull-xs-right" role="toolbar"><a class="btn btn-icon icon-only"></a>
+                <a class="btn btn-success" href="{% url 'register_students' %}">Add Student <i
+                        class="icon ion-person-add"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade-scale top" id="btn-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     data-backdrop="false" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i
+                        class="ion-close"></i></span></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" onclick="delete_modal()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- #TABLE-->
+<div class="container-fluid">
+    <div class="panel-wrapper">
+        <div class="panel">
+            <!--            <div class="filter-wrapper client-filter-wrapper mb-4" id="filter-group">-->
+            <!--                <form class="form-inline" action="" method="GET">-->
+            <!--                    <div class="form-group">-->
+            <!--                        <label class="sr-only" for="title-search">Client Search</label>-->
+            <!--                        <input-->
+            <!--                                type="text"-->
+            <!--                                class="form-control"-->
+            <!--                                id='name-search'W-->
+            <!--                                name='name'-->
+            <!--                                placeholder="Search Name"-->
+            <!--                                {% if request.GET.name %}value={{request.GET.name}}{% endif %}-->
+            <!--                        />-->
+            <!--                    </div>-->
+            <!--                    <button type="submit" title="Search" class="btn btn-primary"><i class="icon ion-search"></i>-->
+            <!--                    </button>-->
+            <!--                    <a class="btn btn-dark" title="Reset" href=""><i class="fas fa-sync-alt"></i></a>-->
+            <!--                </form>-->
+            <!--            </div>-->
+            <!--            <div class="table-bar">-->
+            <!--                <div class="form-inline">-->
+
+            <!--                    <form action="">-->
+            <!--                        {% csrf_token %}-->
+            <!--                        <label class="form-control-label">Grade</label>-->
+            <!--                        <select class="form-control c-select form-control-sm" name="grade" id="select-grade">-->
+            <!--                            {% for grade in grades %}-->
+            <!--                            <option value={{grade.id}}>-->
+            <!--                                {{grade}}-->
+            <!--                            </option>-->
+            <!--                            {% endfor %}-->
+            <!--                        </select>-->
+            <!--                        <label class="form-control-label">sort_by</label>-->
+            <!--                        <select class="form-control c-select form-control-sm" name="sort_by" id="select-sort">-->
+            <!--                            <option value="id" selected>id</option>-->
+            <!--                            <option value="user__full_name">name</option>-->
+            <!--                            <option value="user__address">address</option>-->
+            <!--                        </select>-->
+            <!--                        <button type="button" class="btn btn-primary btn-sm" id="btn-sort"-->
+            <!--                                aria-expanded="false">filter-->
+            <!--                        </button>-->
+            <!--                    </form>-->
+
+            <!--                </div>-->
+            <!--            </div>-->
+            <table class="table" id="studentTable">
+                <thead class="thead-inverse">
+                <tr>
+                    <th></th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Roll no</th>
+                    <th>Grade</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="t-body">
+                {% for student in students %}
+                <tr>
+                    <td>
+                        <div class="circle-box"><img src="{{student.user.profile_pic.url}}" alt="">
+                            <div class="dot dot-online"></div>
+                        </div>
+                    </td>
+                    <td>{{student.user.full_name}}</td>
+                    <td>{{student.user.email}}</td>
+                    <td>{{student.user.address}}</td>
+                    <td>{{student.user.phone}}</td>
+                    <td>{{student.roll_no}}</td>
+                    <td>{{student.grade.grade_name}}</td>
+                    <td>
+                        <a class="btn btn-secondary btn-info"
+                           href="{% url 'update_student' user_id=student.user.id %}"><i class="fa fa-pencil"></i></a>
+                        <button class="btn btn-secondary btn-danger" data-toggle="modal" data-target="#btn-delete"
+                                id="{% url 'delete_user' student.user.id %}" onclick="delete_function(this.id)"><i
+                                class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready( function () {
+        $('#studentTable').DataTable({
+            "lengthMenu": [ 5, 10, 50]
+        });
+    } );
+
+</script>
+<!--<script type="text/javascript">-->
+<!--$('#btn-sort').on('click', function(e) {-->
+<!--    const grade = $('#select-grade option:selected').val()-->
+<!--    const sort_by = $('#select-sort option:selected').val()-->
+<!--    var output = ""-->
+<!--    $.ajax({-->
+<!--        url: "{% url 'manage_students' %}",-->
+<!--        method: "GET",-->
+<!--        data: {-->
+<!--            grade : grade,-->
+<!--            sort_by : sort_by-->
+<!--        },-->
+<!--        success: function(data) {-->
+
+<!--            for(i=0; i<data.length; i++) {-->
+
+<!--                var editurlTemplate = "{% url 'update_student' 0 %}"-->
+<!--                var edit_url = editurlTemplate.replace("0", data[i].fields.user[0]);-->
+<!--                var deleteurlTemplate = "{% url 'delete_user' 0 %}"-->
+<!--                var delete_url = deleteurlTemplate.replace("0", data[i].fields.user[0]);-->
+
+<!--                output += `<tr>-->
+<!--                        <td><div class='circle-box'><img src=${data[i].fields.user[5]} alt=''>-->
+<!--                                <div class='dot dot-online'></div>-->
+<!--                        </div></td>-->
+<!--                        <td>${data[i].fields.user[1]}</td>-->
+<!--                        <td>${data[i].fields.user[2]}</td>-->
+<!--                        <td>${data[i].fields.user[3]}</td>-->
+<!--                        <td>${data[i].fields.user[4]}</td>-->
+<!--                        <td>${data[i].fields.roll_no}</td>-->
+<!--                        <td>${data[i].fields.grade}</td>-->
+<!--                        <td>-->
+<!--                            <a class="btn btn-secondary btn-info" href="${edit_url}"><i class="fa fa-pencil"></i></a>-->
+<!--                            <a class="btn btn-secondary btn-danger" href="${delete_url}"><i class="fa fa-trash"></i></a>-->
+<!--                        </td>-->
+
+<!--                        </tr>`;-->
+<!--            }-->
+<!--            $('#t-body').html(output);-->
+<!--        }-->
+<!--    })-->
+<!--})-->
+<!--</script>-->
+{% endblock %}

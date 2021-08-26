@@ -1,27 +1,65 @@
-{% extends 'main/base.html' %}
+{% extends 'main/index.html' %}
 
 {% block 'body' %}
 
-<div style="margin-top:10px; margin-left:38%;">
-    <h2>My Students:</h2>
-</div>
-
-<div class="form-container">
-    {% for grade in grades %}
-    <div class="subject-highlight ">
-        <b>{{grade.grade_name}}</b><br>
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="media">
+                <div class="media-body">
+                    <div class="display-6">My Students</div>
+                    <p class="small text-muted">Students from my class</p>
+                </div>
+            </div>
+        </div>
     </div>
-    {% for student in students %}
-    {% if grade.id == student.grade.id %}
-    <div class="all_users">
-        Full Name: <b>{{ student.user.full_name}}</b><br>
-        Email: <b>{{ student.user.email }}</b><br>
-        Phone: <b>{{ student.user.phone }}</b><br>
-    </div>
-    {% endif %}
-    {% endfor %}
-    {% endfor %}
-
 </div>
+<div class="container-fluid">
+    <div class="panel-wrapper">
+        <div class="panel">
+            <div class="responsive-nav">
+                <table class="table" id="studentTable" data-page-length='5'>
+                    <thead class="thead-inverse">
+                    <tr>
+                        <th></th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Roll no</th>
+                        <th>Grade</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>
+                            <div class="circle-box"><img src="{{student.user.profile_pic.url}}" alt="">
+                                <div class="dot dot-online"></div>
+                            </div>
+                        </td>
+                        <td>{{student.user.full_name}}</td>
+                        <td>{{student.user.email}}</td>
+                        <td>{{student.user.address}}</td>
+                        <td>{{student.user.phone}}</td>
+                        <td>{{student.roll_no}}</td>
+                        <td>{{student.grade}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready( function () {
+    $('#studentTable').DataTable({
+    "info": false,
+        "lengthMenu": [ 5, 10, 50]
+    });
+    } );
+
+</script>
 
 {% endblock %}

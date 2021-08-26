@@ -1,0 +1,74 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+
+
+<div class="page-header">
+    <h2 class="page-header-title">Create Assignments</h2>
+</div>
+
+
+<div class="container-fluid">
+
+    <div class="row js-grid-wrapper panel-wrapper">
+        <!-- #FORM-->
+        <form method="post" action="{% url 'create_assignments' grade %}">
+            {% csrf_token %}
+            <div class="col-sm-12 js-grid">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Question</h4>
+                                <textarea class="form-control focus" name="question" placeholder="Questions"></textarea>
+                            </div>
+                        </div>
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Description</h4>
+                                <textarea class="form-control focus" rows="3" name="description"
+                                          placeholder="Descriptions.."></textarea>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Deadline</h4>
+                                <input class="form-control focus" type="date" name="deadline" id="dateControl">
+                            </div>
+                        </div>
+                        <div class="row m-b-3">
+
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Subject</h4>
+                                <select name='subject_name' class="form-control" c-select>
+                                    {% for subject in subjects %}
+                                    <option value={{subject.id}}>{{ subject.subject_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">Add Assignments</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(() => {
+        var date_today = new Date();
+        var month = date_today.getMonth()+1;
+        var day = date_today.getDate();
+        var year = date_today.getFullYear();
+        if (month < 10 )
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+
+        $('#dateControl').attr('min', maxDate);
+    })
+
+</script>
+
+{% endblock %}

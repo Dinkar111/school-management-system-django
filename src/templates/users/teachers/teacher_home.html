@@ -1,39 +1,91 @@
-{% extends 'main/base.html' %}
+{% extends 'main/index.html' %}
 
 {% block 'body' %}
 
+{% load static %}
 
-<div class="form-container">
-    <div class="container-md">
-        <h2>Your Profile:</h2>
-        <div class="all_users">
-            Full Name: <b>{{teacher.user.full_name}}</b><br>
-            Email: <b>{{teacher.user.email}}</b><br>
-            Address: <b>{{teacher.user.address}}</b><br>
-            Phone: <b>{{teacher.user.phone}}</b><br>
-            Class I teach: {% for grade in grades %}
-            <ul>
-                <li><b>{{grade.grade_name}}</b></li>
-            </ul>
-            {% endfor %}
-            <div class="btn btn-sm btn-info">
-                <a href="{% url 'update_user' %}">Update profile</a>
-            </div>
-            <div class="btn btn-sm btn-info">
-                <a href="{% url 'change_password' %}">Change Password</a>
+<div class="layout">
+
+    <div class="layout-content">
+        <div class="page-header">
+            <div class="media">
+                <div class="media-left media-meddle"><img src="{{request.user.profile_pic.url}}" alt="" width="80">
+                </div>
+                <div class="media-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="display-5">{{request.user.full_name}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="panel-wrapper">
+
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="big">Address : <b>{{request.user.address}}</b></div>
+                                        <div class="big">Phone : <b>{{request.user.phone}}</b></div>
+                                        <div class="big">Email : <b>{{request.user.email}}</b></div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+
+                                        <h4 class="view-header text-uppercase">My Subjects</h4>
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+                                            </tr>
+                                            </thead>
+                                            {% for subject in request.user.teacher.subject.all %}
+                                            <tbody>
+                                            <tr>
+                                                <td>{{ subject.subject_code }}</td>
+                                                <td>{{ subject.subject_name }}</td>
+                                            </tr>
+                                            </tbody>
+                                            {% endfor %}
+                                        </table>
+
+                                        <!-- END BASIC TABLE-->
+                                    </div>
+                                    <div class="col-md-6">
+                                        <!-- BASIC TABLE-->
+                                        <h4 class="view-header text-uppercase">My Grade</h4>
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th>Grade</th>
+                                                <th>No of students</th>
+                                            </tr>
+                                            </thead>
+                                            {% for grade in request.user.teacher.grade.all %}
+                                            <tbody>
+                                            <tr>
+                                                <td>{{ grade.grade_name }}</td>
+                                                <td>{{ grade.no_of_students }}</td>
+                                            </tr>
+                                            </tbody>
+                                            {% endfor %}
+                                        </table>
+
+                                        <!-- END BASIC TABLE-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <h2>My Subjects:</h2>
-        <div class="all_users">
-            <ul>
-                {% for subject in subjects %}
-                <li><b>{{subject.subject_name}}</b></li>
-                {% endfor %}
-            </ul>
-        </div>
-
     </div>
 </div>
-
 
 {% endblock %}

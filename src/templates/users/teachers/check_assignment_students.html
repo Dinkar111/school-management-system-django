@@ -1,0 +1,55 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="media">
+                <div class="media-body">
+                    <div class="display-6">Assignments</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="panel-wrapper">
+            <div class="panel">
+                <div class="responsive-nav">
+                    <table class="table">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Deadline</th>
+                            <th>Submitted On</th>
+                            <th>Submitted</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for submission in submissions %}
+                        <tr>
+                            <td>{{submission.student.user.full_name}}</td>
+                            <td>{{submission.assignment.deadline}}</td>
+                            <td>{% if submission.submitted_on %}
+                                {{submission.submitted_on}}
+                                {% else %}
+                                -
+                                {% endif%}
+                            </td>
+                            <td>{% if submission.submitted == "Submitted" %}
+                                <i class="fa fa-check" style="color: green;" aria-hidden="true"></i>
+                                {% else %}
+                                <i class="fa fa-times" style="color: red;" aria-hidden="true"></i>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

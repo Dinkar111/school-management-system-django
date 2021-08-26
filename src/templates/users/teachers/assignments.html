@@ -1,0 +1,79 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="media">
+                <div class="media-body">
+                    <div class="display-6">Assignments</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="pull-xs-right" role="toolbar"><a class="btn btn-icon icon-only"></a>
+                <a class="btn btn-success" href="{% url 'create_assignments' grade %}">Add Assignments</a>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="panel-wrapper">
+            <div class="panel">
+                <div class="filter-wrapper client-filter-wrapper mb-4" id="filter-group">
+                    <form class="form-inline" action="" method="GET">
+                        <div class="form-group">
+                            <label for="from-date-search">From</label>
+                            <input
+                                    type="date"
+                                    class="form-control-sm"
+                                    id='from-date-search'
+                                    name='from_date'
+                                    {% if request.GET.from_date %}value={{request.GET.from_date}}{% endif %}
+                            />
+                            -
+                            <label for="to-date-search">To</label>
+                            <input
+                                    type="date"
+                                    class="form-control-sm"
+                                    id='to-date-search'
+                                    name='to_date'
+                                    {% if request.GET.to_date %}value={{request.GET.to_date}}{% endif %}
+                            />
+                        </div>
+                        <button type="submit" title="Search" class="btn btn-primary"><i class="icon ion-search"></i>
+                        </button>
+                        <a class="btn btn-success" title="Reset" href="{% url 'check_assignments_lists' grade %}"><i
+                                class="fa fa-repeat" aria-hidden="true"></i></a>
+                    </form>
+                </div>
+                <div class="responsive-nav">
+                    <table class="table">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>Assignment</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Subject</th>
+                            <th>Deadline</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for assignment in assignments %}
+                        <tr>
+                            <td><a href="{% url 'check_assignments_students_lists' assignment.id %}">{{assignment.question}}</a>
+                            </td>
+                            <td>{{assignment.description}}</td>
+                            <td>{{assignment.date}}</td>
+                            <td>{{assignment.subject.subject_name}}</td>
+                            <td>{{assignment.deadline}}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

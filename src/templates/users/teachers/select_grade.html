@@ -1,0 +1,33 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+
+
+<div class="page-header">
+    <h2 class="page-header-title">SELECT GRADE</h2>
+</div>
+
+<div class="form-group col-sm-4">
+    <h4 class="demo-sub-title">Grade</h4>
+    <div class="panel-wrapper">
+        <div class="panel">
+            <div class="panel-body">
+                <table class="table ">
+                    <thead class="thead-inverse">
+                    <th>Grade</th>
+                    </thead>
+                    <tbody>
+                    {% for grade in request.user.teacher.grade.all %}
+                    <tr>
+                        <td><a href="{% url 'check_assignments_lists' grade_id=grade.id %}">{{ grade.grade_name }}</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

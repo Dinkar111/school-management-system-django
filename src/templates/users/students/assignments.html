@@ -1,0 +1,57 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="media">
+                <div class="media-body">
+                    <div class="display-6">Assigments</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="panel-wrapper">
+            <div class="panel">
+                <div class="responsive-nav">
+                    <table class="table">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>Date</th>
+                            <th>Assignment</th>
+                            <th>Description</th>
+                            <th>Deadline</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Submitted</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for submission in submissions %}
+                        <tr>
+                            <td>{{submission.assignment.date}}</td>
+                            <td><a href="{% url 'assignment_submission' assignment_id=submission.assignment.id %}">{{submission.assignment.question}}</a>
+                            </td>
+                            <td>{{submission.assignment.description}}</td>
+                            <td>{{submission.assignment.deadline}}</td>
+                            <td>{{submission.assignment.subject.subject_name}}</td>
+                            <td>{{submission.assignment.teacher.user.full_name}}</td>
+                            <td>{% if submission.submitted == "Submitted" %}
+                                <i class="fa fa-check" style="color: green;" aria-hidden="true"></i>
+                                {% else %}
+                                <i class="fa fa-times" style="color: red;" aria-hidden="true"></i>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
