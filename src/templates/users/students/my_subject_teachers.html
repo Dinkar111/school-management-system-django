@@ -1,20 +1,60 @@
-{% extends 'main/base.html' %}
+{% extends 'main/index.html' %}
 
 {% block 'body' %}
 
-
-<div class="form-container">
-    <h2>My Subject teachers:</h2>
-    {% for teach in teachers %}
-    <div class="all_users">
-        {% for subject in teach.subject %}
-        Subject: <b>{{ subject }}</b><br>
-        {% endfor %}
-        Full Name: <b>{{ teach.teacher.user.full_name}}</b><br>
-        Email: <b>{{ teach.teacher.user.email }}</b><br>
-        Phone: <b>{{ teach.teacher.user.phone }}</b><br>
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="media">
+                <div class="media-body">
+                    <div class="display-6">My Teachers</div>
+                    <p class="small text-muted">Teachers from my class</p>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endfor %}
 </div>
+<div class="container-fluid">
+    <div class="panel-wrapper">
+        <div class="panel">
+            <div class="responsive-nav">
+                <table class="table">
+                    <thead class="thead-inverse">
+                    <tr>
+                        <th></th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Subject</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for teacher in teachers %}
+                    <tr>
+                        <td>
+                            <div class="circle-box"><img src="{{teacher.user.profile_pic.url}}" alt="">
+                                <div class="dot dot-online"></div>
+                            </div>
+                        </td>
+                        <td>{{teacher.user.full_name}}</td>
+                        <td>{{teacher.user.email}}</td>
+                        <td>{{teacher.user.address}}</td>
+                        <td>{{teacher.user.phone}}</td>
+                        <td>{% for subject in teacher.subject.all %}
+                                {% if subject.grade == grade %}
+                                    {{subject}}<br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

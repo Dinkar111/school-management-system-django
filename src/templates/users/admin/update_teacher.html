@@ -1,0 +1,173 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+
+
+<div class="page-header">
+    <h2 class="page-header-title">Update</h2>
+</div>
+
+<div class="container-fluid">
+    <div class="row js-grid-wrapper panel-wrapper">
+        <!-- #FORM-->
+        <form method="post" action="{% url 'update_teacher' user_id=teacher.user_id%}">
+            {% csrf_token %}
+            <div class="col-sm-12 js-grid">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Email</h4>
+                                <input class="form-control focus" type="text" name="email"
+                                       placeholder="{{teacher.user.email}}"
+                                       value="{{teacher.user.email}}">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Full Name</h4>
+                                <input class="form-control focus" type="text" name="full_name"
+                                       placeholder="{{teacher.user.full_name}}"
+                                       value="{{teacher.user.full_name}}">
+                            </div>
+                        </div>
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Address</h4>
+                                <input class="form-control focus" type="text" name="address"
+                                       placeholder="{{teacher.user.address}}"
+                                       value="{{teacher.user.address}}">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Phone</h4>
+                                <input class="form-control focus" type="text" name="phone"
+                                       placeholder="{{teacher.user.phone}}"
+                                       value="{{teacher.user.phone}}">
+                            </div>
+                        </div>
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Add teacher subjects</h4>
+                                <select class="form-control" name="teacher_subject_name" id="add_subject_option">
+                                    {% for subject in all_subjects %}
+                                    <option value={{subject.id}}>{{ subject.subject_name }} ({{subject.subject_code}})
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <button class="btn btn-success btn-sm" type="button" id="add"
+                                        value={{teacher.user_id}}><i class="fa fa-plus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Remove teacher subjects</h4>
+                                <select class="form-control" name="teacher_subject_name" id="remove_subject_option">
+                                    {% for subject in teacher.subject.all %}
+                                    <option value={{subject.id}}>{{ subject }} ({{ subject.subject_code }})</option>
+                                    {% endfor %}
+                                </select>
+                                <button class="btn btn-danger btn-sm" type="button" id="remove"
+                                        value={{teacher.user_id}}><i class="icon ion-close"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Add teacher grade</h4>
+                                <select class="form-control" name="teacher_subject_name" id="add_grade_option">
+                                    {% for grade in all_grades %}
+                                    <option value={{grade.id}}>{{ grade}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <button class="btn btn-success btn-sm" type="button" id="add_grade"
+                                        value={{teacher.user_id}}><i class="fa fa-plus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Remove teacher grade</h4>
+                                <select class="form-control" name="teacher_subject_name" id="remove_grade_option">
+                                    {% for grade in teacher.grade.all %}
+                                    <option value={{grade.id}}>{{ grade }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button class="btn btn-danger btn-sm" type="button" id="remove_grade"
+                                        value={{teacher.user_id}}><i class="icon ion-close"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+$("#remove").click( function(e) {
+    const user_id = this.value;
+    const subject_id = document.getElementById('remove_subject_option').options[remove_subject_option.selectedIndex].value;
+    $.ajax({
+        url: "{% url 'remove_teacher_subject' %}",
+        data: {
+            'user_id': user_id,
+            'subject_id': subject_id
+        },
+        success: function(result) {
+            alert(result)
+            location.reload(true)
+        }
+    });
+});
+
+$("#add").click( function(e) {
+    const user_id = this.value;
+    const subject_id = document.getElementById('add_subject_option').options[add_subject_option.selectedIndex].value;
+    $.ajax({
+        url: "{% url 'choose_teacher_subject' %}",
+        data: {
+            'user_id': user_id,
+            'subject_id': subject_id
+        },
+        success: function(result) {
+            alert(result)
+            location.reload(true)
+        }
+    });
+});
+
+$("#add_grade").click( function(e) {
+    const user_id = this.value;
+    const grade_id = document.getElementById('add_grade_option').options[add_grade_option.selectedIndex].value;
+    $.ajax({
+        url: "{% url 'choose_teacher_grade' %}",
+        data: {
+            'user_id': user_id,
+            'grade_id': grade_id
+        },
+        success: function(result) {
+            alert(result)
+            location.reload(true)
+        }
+    });
+});
+
+$("#remove_grade").click( function(e) {
+    const user_id = this.value;
+    const grade_id = document.getElementById('remove_grade_option').options[remove_grade_option.selectedIndex].value;
+    $.ajax({
+        url: "{% url 'remove_teacher_grade' %}",
+        data: {
+            'user_id': user_id,
+            'grade_id': grade_id
+        },
+        success: function(result) {
+            alert(result)
+            location.reload(true)
+        }
+    });
+});
+
+
+</script>
+
+{% endblock %}

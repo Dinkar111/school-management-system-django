@@ -11,5 +11,8 @@ class Grade(models.Model):
         return self.grade_name
 
     class Meta:
-        db_table = 'grades'
-        ordering = ['grade_name']
+        db_table = "grades"
+        ordering = ["grade_name"]
+
+    def natural_key(self):
+        return self.grade_name

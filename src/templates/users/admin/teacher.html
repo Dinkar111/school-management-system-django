@@ -1,0 +1,108 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="media">
+                <div class="media-body">
+                    <div class="display-6">Teacher</div>
+                    <p class="small text-muted">
+                        Table</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="pull-xs-right" role="toolbar"><a class="btn btn-icon icon-only"></a>
+                <a class="btn btn-success" href="{% url 'register_teachers' %}">Add Teacher</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade-scale top" id="btn-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="ion-close"></i></span></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" onclick="delete_modal()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="panel-wrapper">
+        <div class="panel">
+            <div class="container-fluid">
+                <div class="panel-wrapper">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <table class="table" id="teacherTable" >
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Address</th>
+                                    <th>Phone</th>
+                                    <th>Subject</th>
+                                    <th>Grade</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for teacher in teachers %}
+                                <tr>
+                                    <td>
+                                        <div class="circle-box"><img src="{{teacher.user.profile_pic.url}}" alt="">
+                                            <div class="dot dot-online"></div>
+                                        </div>
+                                    </td>
+                                    <td>{{teacher.user.full_name}}</td>
+                                    <td>{{teacher.user.email}}</td>
+                                    <td>{{teacher.user.address}}</td>
+                                    <td>{{teacher.user.phone}}</td>
+                                    <td>
+                                        {% for subject in teacher.subject.all %}
+                                        {{subject}}<br>
+                                        {% endfor %}
+                                    </td>
+                                    <td>{% for grade in teacher.grade.all %}
+                                        {{grade}}<br>
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-secondary btn-info"
+                                           href="{% url 'update_teacher' user_id=teacher.user.id %}"><i class="fa fa-pencil"></i></a>
+                                        <button class="btn btn-secondary btn-danger" data-toggle="modal" data-target="#btn-delete"
+                                           id="{% url 'delete_user' teacher.user.id %}" onclick="delete_function(this.id)"><i class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready( function () {
+    $('#teacherTable').DataTable({
+    "info": false,
+    "lengthMenu": [ 5, 10, 50]
+    });
+    } );
+</script>
+
+{% endblock %}

@@ -1,7 +1,7 @@
-from django.db import models
 from django.conf import settings
-from grades.models import Grade
+from django.db import models
 
+from grades.models import Grade
 
 User = settings.AUTH_USER_MODEL
 
@@ -14,8 +14,7 @@ class Student(models.Model):
     objects = models.Manager()
 
     def __str__(self):
-        return f'{self.user}'
+        return f"{self.user}"
 
     class Meta:
-        db_table = 'students'
-        ordering = ['user']
+        db_table = "students"

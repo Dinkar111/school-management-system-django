@@ -115,3 +115,5 @@ static/*
 .vscode/
 .DS_Store
 *.idea/
+
+src/static/images

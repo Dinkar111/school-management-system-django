@@ -1,23 +1,61 @@
-{% extends 'main/base.html' %}
+{% extends 'main/index.html' %}
 
 {% block 'body' %}
 
-<div class="form-container">
-    {% if messages %}
-    <ul class="message_success">
-        {% for message in messages %}
-        {{ message }}
-        {% endfor %}
-    </ul>
-
-    {% endif %}
-
-    <h2>Your Profile:</h2>
-    <div class="container-md">
-        <div class="all_users">
-            Email: {{admin.email}}<br>
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="page-header-title">Dashboard</h4>
+                </div>
+            </div>
         </div>
-
     </div>
-    {% endblock %}
 </div>
+
+<div class="container-fluid">
+    <div class="row panel-wrapper js-grid-wrapper">
+        <div class="col-xs-12 col-sm-6 col-md-3 js-grid js-sizer"><a href="">
+            <div class="widget widget-v bg-primary">
+                <div class="w-main w-center bg-primary-lighten"><i class="fa fa-user"></i></div>
+                <div class="w-section">
+                    <div class="small">TOTAL STUDENTS</div>
+                    <div class="display-3">{{students.count}}</div>
+                </div>
+            </div>
+        </a></div>
+        <div class="col-xs-12 col-sm-6 col-md-3 js-grid"><a href="">
+            <div class="widget widget-v bg-primary">
+                <div class="w-main w-center bg-primary-lighten"><i class="fa fa-user"></i></div>
+                <div class="w-section">
+                    <div class="small">TOTAL TEACHERS</div>
+                    <div class="display-3">{{teachers.count}}</div>
+                </div>
+            </div>
+        </a></div>
+        <div class="col-xs-12 col-sm-6 col-md-3 js-grid"><a href="">
+            <div class="widget widget-v bg-success">
+                <div class="w-main w-center bg-success-lighten"><i class="fa fa-columns"></i></div>
+                <div class="w-section">
+                    <div class="small">TOTAL SUBJECTS</div>
+                    <div class="display-3">{{subjects.count}}</div>
+                </div>
+            </div>
+        </a></div>
+        <div class="col-xs-12 col-sm-6 col-md-3 js-grid"><a href="">
+            <div class="widget widget-v bg-warning">
+                <div class="w-main w-center bg-warning-lighten"><i class="fa fa-columns"></i></div>
+                <div class="w-section">
+                    <div class="small">TOTAL GRADES</div>
+                    <div class="display-3">{{grades.count}}</div>
+                </div>
+            </div>
+        </a>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+{% endblock %}

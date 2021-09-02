@@ -1,0 +1,55 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+
+
+<div class="page-header">
+    <h2 class="page-header-title">Update Subject</h2>
+</div>
+<!-- END PAGE HEADER-->
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+
+{% endif %}
+<div class="container-fluid">
+    <div class="row js-grid-wrapper panel-wrapper">
+        <!-- #FORM-->
+        <form method="post" action="{% url 'update_subject' subject_id=subject.id %}">
+            {% csrf_token %}
+            <div class="col-sm-12 js-grid">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Subject Code</h4>
+                                <input class="form-control focus" type="text" name="subject_code" placeholder={{subject.subject_code}}"
+                                    value={{subject.subject_code}}
+                                >
+                            </div>
+                        </div>
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Subject Name</h4>
+                                <input class="form-control focus" type="text" name="subject_name" placeholder={{subject.subject_name}}"
+                                    value={{subject.subject_name}}>
+                            </div>
+                        </div>
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Grade</h4>
+                                <input class="form-control focus" type="text" name="grade_name" placeholder={{subject.grade}} disabled>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">Submit</button></div>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

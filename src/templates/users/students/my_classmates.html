@@ -1,17 +1,50 @@
-{% extends 'main/base.html' %}
+{% extends 'main/index.html' %}
 
 {% block 'body' %}
 
 
-<div class="form-container">
-    <h2>My Classmates:</h2>
-    {% for student in students %}
-    <div class="all_users">
-        Full Name: <b>{{student.user.full_name}}</b><br>
-        Email: <b>{{ student.user.email }}</b><br>
-        Phone: <b>{{ student.user.phone }}</b><br>
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="media">
+                <div class="media-body">
+                    <div class="display-6">My Classmates</div>
+                    <p class="small text-muted">Other students from my class</p>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endfor %}
 </div>
+{% for student in students %}
+
+<div class="container-fluid">
+    <div class="row panel-wrapper">
+        <div class="col-xs-12 col-sm-6 col-md-60 col-lg-3">
+            <div class="widget">
+                <div class="w-section">
+                    <div class="w-user"><img src="{{student.user.profile_pic.url}}" alt="">
+                        <div><a class="name" href="#">{{ student.user.full_name }}</a></div>
+                    </div>
+                </div>
+                <div class="row-no-gutter text-xs-center p-b-2">
+                    <div class="col-xs-10">
+                        <div class="text-desc">Email</div>
+                        <b>{{student.user.email}}</b>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="text-desc">Phone</div>
+                        <b>{{student.user.phone}}</b>
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="text-desc">Subject</div>
+                        <b>{{subject}}</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 
 {% endblock %}

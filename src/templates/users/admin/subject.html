@@ -1,0 +1,132 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="media">
+                <div class="media-body">
+                    <div class="display-6">Subject</div>
+                    <p class="small text-muted">
+                        Table</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="pull-xs-right" role="toolbar"><a class="btn btn-icon icon-only"></a>
+                <a class="btn btn-success" href="{% url 'add_subject' %}">Add Subject</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- #TABLE-->
+<div class="modal fade-scale top" id="btn-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     data-backdrop="false" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i
+                        class="ion-close"></i></span></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" onclick="delete_modal()">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="panel-wrapper">
+        <div class="panel">
+            <div class="filter-wrapper client-filter-wrapper mb-4" id="filter-group">
+                <form class="form-inline" action="" method="GET">
+                    <div class="form-group">
+                        <input
+                                type="text"
+                                class="form-control"
+                                id='subject-search'W
+                                name='subject_name'
+                                placeholder="Search Subject"
+                                {% if request.GET.subject_name %}value={{request.GET.subject_name}}{% endif %}
+                        />
+                    </div>
+                    <button type="submit" title="Search" class="btn btn-primary"><i class="icon ion-search"></i>
+                    </button>
+                    <a class="btn btn-success" title="Reset" href="{% url 'manage_subjects' %}"><i class="fa fa-repeat"></i></a>
+                </form>
+            </div>
+            <div class="table-bar">
+                <div class="form-inline">
+                    <form method="get" action="{% url 'manage_subjects' %}">
+                        {% csrf_token %}
+                        <label class="form-control-label">Grade</label>
+                        <select class="form-control c-select form-control-sm" name="grade">
+                            {% for grade in grades %}
+                            <option value={{grade.id}}>{{ grade.grade_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm" id="tabletopdd"
+                                aria-expanded="false">filter
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+            <table class="table">
+                <thead class="thead-inverse">
+                <tr>
+                    <th>Subject Code</th>
+                    <th>Subject Name</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for subject in page_obj %}
+                <tr>
+                    <td><strong>{{subject.subject_code}}</strong></td>
+                    <td>{{subject.subject_name}}</td>
+                    <td>
+                        <a class="btn btn-secondary btn-info" href="{% url 'update_subject' subject_id=subject.id %}"><i
+                                class="fa fa-pencil"></i></a>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger js-position" id="{% url 'delete_subject' subject.id %}"
+                                onclick="delete_function(this.id)" data-toggle="modal" data-target="#btn-delete"><i
+                                class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="table-bar">
+                {% if page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END PAGE CONTENT-->
+
+
+{% endblock %}

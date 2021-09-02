@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en-us">
+{% load static %}
+<head>
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>School Management System</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+    <!-- lib-->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic">
+
+
+    <!-- Theme-->
+    <!-- Concat all lib & plugins css-->
+    <link id="mainstyle" rel="stylesheet" href="{% static 'assets/stylesheets/theme-libs-plugins.css' %}">
+    <link id="mainstyle" rel="stylesheet" href="{% static 'assets/stylesheets/skin.css' %}">
+
+    <!-- Demo only-->
+    <link id="mainstyle" rel="stylesheet" href="{% static 'assets/stylesheets/demo.css' %}">
+
+    <script src="{% static 'assets/scripts/lib/modernizr-custom.js' %}"></script>
+    <script src="{% static 'assets/scripts/lib/respond.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+</head>
+
+<body class="orchid  ">
+
+<!-- #SIDEMENU-->
+<div class="mainmenu-block">
+    <!-- SITE MAINMENU-->
+    <nav class="menu-block">
+        <ul class="nav">
+            <li class="nav-item mainmenu-user-profile">
+                {% if not request.user.profile_pic %}
+                <div class="circle-box"><img src="{% static 'images/user.png' %}" alt="">
+                    <div class="dot dot-online"></div>
+                </div>
+                <div class="menu-block-label"><b>Admin</b></div>
+                {% else %}
+                <div class="circle-box"><img src="{{request.user.profile_pic.url}}" alt="">
+                    <div class="dot dot-online"></div>
+                </div>
+                <div class="menu-block-label"><b>{{request.user.full_name}}</b></div>
+                {% endif %}
+
+            </li>
+        </ul>
+        <ul class="nav">
+            <li class="nav-item"><a class="nav-link" href="{% url 'user_home' %}"><i class="icon ion-home"></i>
+                <div class="menu-block-label">Home</div>
+            </a></li>
+            {% if user.is_student %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'assignments_lists' %}"><i
+                    class="icon ion-clipboard"></i>
+                <div class="menu-block-label">Assignments</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'my_subject_teachers' %}"><i
+                    class="icon ion-android-people"></i>
+                <div class="menu-block-label">My Teachers</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'my_classmates' %}"><i
+                    class="icon ion-android-people"></i>
+                <div class="menu-block-label">Classmates</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'upload_photo'%}"><i class="icon ion-image"></i>
+                <div class="menu-block-label">Change Profile pic</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'update_profile' %}"><i
+                    class="icon ion-person"></i>
+                <div class="menu-block-label">Update Profile</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'change_password' %}"><i class="icon ion-key"></i>
+                <div class="menu-block-label">Change Password</div>
+            </a></li>
+            {% elif user.is_teacher %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'my_students' %}"><i
+                    class="icon ion-android-people"></i>
+                <div class="menu-block-label">My Students</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'select_grade' %}"><i
+                    class="icon ion-clipboard"></i>
+                <div class="menu-block-label">Assignments</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'upload_photo'%}"><i class="icon ion-image"></i>
+                <div class="menu-block-label">Change Profile pic</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'update_profile' %}"><i
+                    class="icon ion-person"></i>
+                <div class="menu-block-label">Update Profile</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'change_password' %}"><i class="icon ion-key"></i>
+                <div class="menu-block-label">Change Password</div>
+            </a></li>
+            {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'manage_students' %}"><i
+                    class="icon ion-android-people"></i>
+                <div class="menu-block-label">Student</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'manage_teachers' %}"><i class=" icon
+                                    ion-android-people"></i>
+                <div class="menu-block-label">Teacher</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'manage_subjects' %}"><i
+                    class="icon ion-ios-list-outline"></i>
+                <div class="menu-block-label">Subject</div>
+            </a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'manage_grades' %}"><i class="icon ion-document"></i>
+                <div class="menu-block-label">Grade</div>
+            </a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<!-- #MAIN-->
+<div class="main-wrapper">
+
+    <!-- VIEW WRAPPER-->
+    <div class="view-wrapper">
+
+        <!-- TOP WRAPPER-->
+        <div class="topbar-wrapper">
+            <div class="col-xs-2">
+                <div class="topbar-wrapper-logo ">School Management</div>
+            </div>
+
+            <!-- TOP RIGHT MENU-->
+            <ul class="nav navbar-nav topbar-wrapper-nav">
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out"
+                                                                                      aria-hidden="true"></i></a>
+                </li>
+                <!-- END TOP RIGHT MENU-->
+            </ul>
+        </div>
+        <!--END TOP WRAPPER-->
+        {% if messages %}
+        {% for message in messages %}
+        <div class="container-fluid p-0">
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% block 'body' %}
+
+        {% endblock %}
+    </div>
+</div>
+<script src="{% static 'assets/scripts/lib/jquery-1.11.3.min.js' %}"></script>
+<script src="{% static 'assets/scripts/lib/jquery-ui.js' %}"></script>
+<script src="{% static 'assets/scripts/lib/tether.min.js' %}"></script>
+<script src="{% static 'assets/scripts/theme/theme-plugins.js' %}"></script>
+<script src="{% static 'assets/scripts/theme/main.js' %}"></script>
+<script src="{% static 'assets/scripts/demo/demo-skin.js' %}"></script>
+<script src="{% static 'assets/scripts/demo/bar-chart-menublock.js' %}"></script>
+
+<script type="text/javascript">
+
+    var delete_url
+
+    function delete_function(del_url) {
+        delete_url = del_url
+    }
+
+    function delete_modal(){
+        $.ajax({
+            url: delete_url,
+            success: function(data) {
+                   location.reload(true)
+            },
+            error: function(data) {
+                   location.reload(true)
+            }
+        })
+    }
+
+
+</script>
+
+</body>
+</html>

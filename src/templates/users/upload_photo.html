@@ -1,0 +1,31 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+
+
+<div class="page-header">
+    <h2 class="page-header-title">Upload Photo</h2>
+</div>
+
+<div class="container-fluid">
+    <div class="row js-grid-wrapper panel-wrapper">
+        <form method="post" action="{% url 'upload_photo' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-sm-12 js-grid">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Upload Image</h4>
+                                <input class="form-control focus" type="file" name="profile_image">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">Upload</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'main/index.html' %}
+
+{% block 'body' %}
+
+
+<div class="page-header">
+    <h2 class="page-header-title">Assigment Submission</h2>
+</div>
+
+<div class="container-fluid">
+
+    <div class="col-md-4">
+        <div class="panel bg-inverse-darken" data-mh="g0">
+            <div class="panel-heading">
+                <div class="panel-title">Assignment Detail</div>
+            </div>
+            <div class="panel-body">
+                <dl class="row">
+                    <dt class="col-xs-5">Assignment ID:</dt>
+                    <dd>{{assignment.id}}</dd>
+                    <dt class="col-xs-5">Question:</dt>
+                    <dd>{{assignment.question}}</dd>
+                    <dt class="col-xs-5">Description:</dt>
+                    <dd>{{assignment.description}}</dd>
+                    <dt class="col-xs-5">Date:</dt>
+                    <dd>{{assignment.date}}</dd>
+                    <dt class="col-xs-5">Deadline:</dt>
+                    <dd>{{assignment.deadline}}</dd>
+                    <dt class="col-xs-5">Subject:</dt>
+                    <dd>{{assignment.subject.subject_name}}</dd>
+                    <dt class="col-xs-5">Teacher:</dt>
+                    <dd>{{assignment.teacher.user.full_name }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="row-no-gutter panel-wrapper">
+        <div class="col-md-8">
+            <div class="panel-body">
+                <form method="post" action="{% url 'assignment_submission' assignment_id=assignment.id %}"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-sm-12 js-grid">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                {% if days < 0 %}
+                                Deadline Already Crossed
+                                {% elif submission.submitted == 'Submitted' %}
+                                Already Submitted
+                                {% else %}
+                                <div class="row m-b-3">
+                                    <div class="form-group col-sm-4">
+                                        <h4 class="demo-sub-title">Upload your assignment</h4>
+                                        <input class="form-control focus" type="file" name="assignment_file">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg">Submit Assignment</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

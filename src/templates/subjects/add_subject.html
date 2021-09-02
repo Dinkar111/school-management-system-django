@@ -1,37 +1,53 @@
-{% extends 'main/base.html' %}
+{% extends 'main/index.html' %}
 
 {% block 'body' %}
-<div class="form-container">
-    <div class="div-add-subject">
-        {% if messages %}
-        {% for message in messages %}
-        <ul>
-            <li>{{message}}</li>
-        </ul>
-        {% endfor %}
-        {% endif %}
 
-        <form method="post" action="{% url 'add_subjects' %}">
+
+<div class="page-header">
+    <h2 class="page-header-title">Add Subject</h2>
+</div>
+<!-- END PAGE HEADER-->
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+</ul>
+
+{% endif %}
+<div class="container-fluid">
+    <div class="row js-grid-wrapper panel-wrapper">
+        <!-- #FORM-->
+        <form method="post" action="{% url 'add_subject' %}">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="inputSubjectCode">Enter Subject Code </label>
-                <input type="text" name="subject_code" class="form-control" id="inputSubjectCode"
-                       placeholder="Enter Subject Code">
-            </div>
-            <br>
-            <div class="form-group">
-                <label for="inputSubjectName">Enter Subject Name</label>
-                <input type="text" name="subject_name" class="form-control" id="inputSubjectName"
-                       placeholder="Enter Subject Name">
-            </div>
-            <br>
-            <label for="selectClass">Which class does this subject belong to?</label>
-            <select name='class_name' class="form-control" id="selectClass">
-                {% for grade in grades %}
-                <option>{{ grade.grade_name }}</option>
-                {% endfor %}
-            </select><br>
-            <button type="submit" class="btn btn-primary">Add Subject</button>
+            <div class="col-sm-12 js-grid">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Subject Code</h4>
+                                <input class="form-control focus" type="text" name="subject_code" placeholder="ENG-1">
+                            </div>
+                        </div>
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Subject Name</h4>
+                                <input class="form-control focus" type="text" name="subject_name" placeholder="Subject name">
+                            </div>
+                        </div>
+                        <div class="row m-b-3">
+                            <div class="form-group col-sm-4">
+                                <h4 class="demo-sub-title">Grade</h4>
+                                <select name='grade_name' class="form-control" c-select>
+                                    {% for grade in grades %}
+                                    <option value={{grade.id}}>{{ grade.grade_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg">Submit</button></div>
+                    </div>
+                </div>
         </form>
     </div>
 </div>
